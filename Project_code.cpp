@@ -161,7 +161,7 @@ class seats
         string seatnum;
         int flag=0;
 
-        for(int i=0;i<t;i++)
+        for(static int i=0;i<t;i++)
         {
             cout<<"\nEnter seat number (A1, C10, D4...): ";
             cin>>seatnum;
@@ -174,12 +174,18 @@ class seats
                 {
                     flag=1;
                     s[j]="Bk";
+                    cout<<"\nSeat booked!";
                     break;
                 }
             }
 
             if(flag==0)
-                cout<<"\nSeat not found!";
+            {
+                cout<<"\nSeat not found! Enter again!";
+                bookseats(s, t);
+            }
+
+            flag=0;
         }
     }
 };
@@ -308,16 +314,16 @@ class snacks
 {
     public:
 
-    string snackList[5] = {"Popcorn", "Nachos", "Soda", "Candy", "Fries"};
-    float snackPrices[5] = {29.9, 40.1, 24.9, 14.9, 50.1};
-    int snackQuantity[5] = {0};
+    string slist[5] = {"Popcorn", "Nachos", "Soda", "Candy", "Fries"};
+    float sprices[5] = {29.9, 40.1, 24.9, 14.9, 50.1};
+    int squantity[5] = {0};
 
     void addsnacks()
     {
         cout<<"\n\n--Available Snacks:"<<endl;
 
         for(int i=0; i<5; i++)
-        cout<<i+1<<". "<<snackList[i]<<"    \t"<<snackPrices[i]<<"/-"<<endl;
+        cout<<i+1<<". "<<slist[i]<<"    \t"<<sprices[i]<<"/-"<<endl;
 
         int choice, quantity;
         char more;
@@ -330,7 +336,7 @@ class snacks
             cin>>quantity;
 
             if(choice>0 &&choice<=5)
-            snackQuantity[choice-1]+=quantity;
+            squantity[choice-1]+=quantity;
 
             else
             cout<<"\nInvalid choice!";
@@ -340,17 +346,17 @@ class snacks
         }while(more=='y');
     }
 
-        void displaySnackSummary()
+        void ssummary()
         {
             float totalCost = 0;
 
             cout << "\nSnack Summary:\n";
 
             for (int i = 0; i < 5; i++)
-                if (snackQuantity[i] > 0)
+                if (squantity[i] > 0)
                 {
-                    cout <<snackQuantity[i]  << "x " <<snackList[i] <<"\t"<< snackQuantity[i] * snackPrices[i] <<"/-"<< endl;
-                    totalCost += snackQuantity[i] * snackPrices[i];
+                    cout <<squantity[i]  << "x " <<slist[i] <<"\t"<< squantity[i] * sprices[i] <<"/-"<< endl;
+                    totalCost += squantity[i] * sprices[i];
                 }
         
         cout << "Total Snack Cost: " << totalCost<<"/-" << endl;
@@ -370,7 +376,12 @@ class billing: public booking, public snacks
 
         if(add=='y')
         addsnacks();
-        displaySnackSummary();
+        ssummary();
+    }
+
+    void displaygrand()
+    {
+        //Display the movie price with amount of tickets first. Then snacks, then grand total. For ticket number use rand function
     }
 };
 
@@ -422,6 +433,7 @@ void mainmenu()
                 b.compare();
                 b.nooftickets();
                 bill.asksnacks();
+                bill.displaygrand();
                 break;
             }
 
