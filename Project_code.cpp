@@ -1,169 +1,179 @@
-//Movie booking system
-
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<conio.h>
 #include<string>
 #include<iomanip>
+#include<math.h>
+#include<fstream>
 using namespace std;
 
 class User
 {
-    protected:
-
-    static string username[100];
-    static string password[100];
+protected:
+    int active;
+	static string username[100];
+	static string password[100];
 };
 
 string User::username[100];
 string User::password[100];
 
-class SignIn: virtual public User
+class SignIn : virtual public User
 {
-    protected:
-    
-    string user, pass;
-    int flag=0;
-    static int locator;
+protected:
 
-    public:
+	string user, pass;
+	int flag = 0;
+	static int locator;
 
-    void getuser()
-    {
-        cout<<"\nEnter username: ";
-        cin>>user;
+public:
 
-        checkuser();
-    }
+	void getuser()
+	{
+		cout << "\nEnter username: ";
+		cin >> user;
 
-        //Check for existence
+		checkuser();
+	}
 
-    void checkuser()
-    {
-        for(int i=0; i<100; i++)
-            if(username[i]==user)
-            {
-                flag=1;
-                break;
-            }
+	//Check for existence
 
-        if(flag==1)
-        {
-            cout<<"\nAn account with the same username is already existing!";
-            getuser();
-        }
+	inline void checkuser()
+	{
+		for (int i = 0; i<100; i++)
+			if (username[i] == user)
+			{
+				flag = 1;
+				break;
+			}
 
-        else
-            getpass();
-    }
+		if (flag == 1)
+		{
+			cout << "\nAn account with the same username is already existing!";
+			getuser();
+		}
 
-    void getpass()
-    {
-        locator++;
-        username[locator]=user;
+		else
+			getpass();
+	}
 
-        cout<<"Enter password: ";
-        cin>>pass;
+	inline void getpass()
+	{
+		locator++;
+		username[locator] = user;
 
-        password[locator]=pass;
+		cout << "Enter password: ";
+		cin >> pass;
 
-        display();
-    }
+		password[locator] = pass;
 
-    void display()
-    {
-        cout<<"\n\n------------------------------";
-        cout<<"\n\n  Welcome "<<username[locator]<<"!";
-        cout<<"\n\n------------------------------";
-    }
+		active=locator;
+		display();
+	}
+
+	inline void display()
+	{
+		cout<<"\n\n";
+		for(int i=0; i<(username[locator].length()+1+10+2); i++)
+		cout << "-";
+		cout << "\n\n  Welcome " << username[locator] << "!";
+		cout << "\n\n";
+		for(int j=0; j<(username[locator].length()+1+10+2); j++)
+		cout<<"-";
+	}
 };
 
-int SignIn::locator=-1; 
+int SignIn::locator = -1;
 
-class LogIn: virtual public User
+class LogIn : virtual public User
 {
-    protected:
+protected:
 
-    string user, pass;
-    int flag=0, i=0;
+	string user, pass;
+	int flag = 0, i = 0;
 
-    public:
+public:
 
-    void getuser()
-    {
-        cout<<"\nEnter username: ";
-        cin>>user;
+	void getuser()
+	{
+		cout << "\nEnter username: ";
+		cin >> user;
 
-        checkuser();
-    }
+		checkuser();
+	}
 
-    void checkuser()
-    {
-        for(i=0; i<100; i++)
-           if(username[i]==user)
-           {
-               flag=1;
-               break;
-           }
+	void checkuser()
+	{
+		for (i = 0; i<100; i++)
+			if (username[i] == user)
+			{
+				flag = 1;
+				break;
+			}
 
-        if(flag==0)
-        {
-            cout<<"\nNo such account with the username"<<endl;
-            getuser();
-        }
+		if (flag == 0)
+		{
+			cout << "\nNo such account with the username" << endl;
+			getuser();
+		}
 
-        else
-            getpass();
-    }
+		else
+			getpass();
+	}
 
-    void getpass()
-    {
-        cout<<"Enter password: ";
-        cin>>pass;
+	void getpass()
+	{
+		cout << "Enter password: ";
+		cin >> pass;
 
-        checkpass();
-    }
+		checkpass();
+	}
 
-    void checkpass()
-    {
-        //Match
+	void checkpass()
+	{
+		//Match
 
-        if(password[i]==pass)
-        {
-            cout<<"\nLogin success!";
-            display();
-        }
+		if (password[i] == pass)
+		{
+			cout << "\nLogin success!";
+			active=i;
+			captcha();
+		}
 
-        else
-        {
-            cout<<"\nIncorrect password!"<<endl;
-            getpass();
-        }
-    }
+		else
+		{
+			cout << "\nIncorrect password!" << endl;
+			getpass();
+		}
+	}
 
-    void captcha()
-    {
-        string captcha, entcap;
+	void captcha()
+	{
+		int captcha, entcap;
 
-        captcha=rand()%10000;
+		captcha = rand() % 10000 + 100;
 
-        cout<<"\nCode: "<<captcha;
-        cout<<"\nEnter captcha: ";
-        cin>>entcap;
+		cout << "\n\nCode: " << captcha;
+		cout << "\nEnter captcha: ";
+		cin >> entcap;
 
-        if(captcha==entcap)
-            display();
-    }
+		if (captcha == entcap)
+			display();
+	}
 
-    void display()
-    {
-        cout<<"\n\n------------------------------";
-        cout<<"\n\n  Welcome "<<username[i]<<"!";
-        cout<<"\n\n------------------------------";
-    }
+	void display()
+	{
+		cout<<"\n\n";
+		for(int k=0; k<(username[i].length()+1+10+2); k++)
+		cout << "-";
+		cout << "\n\n  Welcome " << username[i] << "!";
+		cout << "\n\n";
+		for(int j=0; j<(username[i].length()+1+10+2); j++)
+        cout<<"-";
+	}
 };
 
-class Movies: public SignIn, public LogIn
+class Movies : public SignIn, public LogIn
 {
 public:
 
@@ -173,6 +183,7 @@ public:
 	string tl1, tl2, tl3, tl4;
 	float rat1, rat2, rat3, rat4;
 	string date1, date2, date3, date4;
+	float p1, p2, p3, p4;
 
 	void showsdisplay()
 	{
@@ -203,8 +214,8 @@ protected:
 
 	//Constant data member
 
-	const string backup[100]={ "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
-    
+	const string backup[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
+
 public:
 
 	string tbc;
@@ -240,18 +251,27 @@ public:
 		rat2 = 9.2;
 		rat3 = 9.0;
 		rat4 = 9.0;
+
+		p1 = 1500;
+		p2 = 2000;
+		p3 = 2500;
+		p4 = 1250;
 	}
 
 	void titles()
 	{
-		cout << "\n\nAvailable movies:\n\n";
-		cout << title1 << endl;
-		cout << title2 << endl;
-		cout << title3 << endl;
-		cout << title4 << endl;
+		cout << "\n\nAvailable movies:";
+		cout << "\n\nMovie Names\t     Ticket price\n";
+		cout << "-------------------------------------\n\n";
+		cout << title1 << " \t\t1,500/-" << endl;
+		cout << title2 << " \t\t2,000/-" << endl;
+		cout << title3 << "\t\t2,500/-" << endl;
+		cout << title4 << " \t\t1,250/-" << endl;
 	}
 
-	inline void getname()
+	// Virtual function
+
+	virtual void getname()
 	{
 		cout << "\nEnter name of the movie: ";
 		getline(cin >> ws, tbc);
@@ -266,10 +286,9 @@ public:
 		cout << "Genre:           " << gen << endl;
 		cout << "Time Length:     " << t << endl;
 		cout << "Rating:          " << r << "/10";
-
 	}
 
-	 void compfordet()
+	void compfordet()
 	{
 		if (tbc == title1)
 			displaydetails(title1, gen1, tl1, rat1);
@@ -323,7 +342,7 @@ public:
 		}
 
 		if (ttickets>0)
-            bookseats(seatsdis, ttickets);
+			bookseats(seatsdis, ttickets);
 	}
 
 	friend void bookseats(string s[], int t);
@@ -377,20 +396,28 @@ string details::seats2[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", 
 string details::seats3[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
 string details::seats4[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
 
+//Global variables, inheritance not working properly
+
+float price;
+string name;
+int totaltickets = 1;
+
 class booking : public seats, public details
 {
-public:
+protected:
 
-	int totaltickets = 1;
 	string tickname;
 	string canname;
+	
+	public:
 
 	void gettickname()
 	{
 		cout << "\nEnter the name of the movie: ";
 		getline(cin >> ws, tickname);
+		name=tickname;
 
-		compare();
+		compare(tickname);
 	}
 
 	void displaysinfo(string title, int avseats, string date, string time)
@@ -399,22 +426,36 @@ public:
 		cout << "Movie:           " << title << endl;
 		cout << "Available seats: " << avseats << endl;
 		cout << "Date:            " << date << endl;
-		cout << "Time:            " << time<<endl;
+		cout << "Time:            " << time << endl;
 	}
 
-	void compare()
+	//Function overloading
+
+	void compare(string in)
 	{
-		if (tickname == title1)
+		if (in == title1)
+		{
+			price=p1;
 			displaysinfo(title1, avseats1, date1, time1);
+		}
 
-		else if (tickname == title2)
+		else if (in == title2)
+		{
+			price=p2;
 			displaysinfo(title2, avseats2, date2, time2);
+		}
 
-		else if (tickname == title3)
+		else if (in == title3)
+		{
+			price=p3;
 			displaysinfo(title3, avseats3, date3, time3);
+		}
 
-		else if (tickname == title4)
+		else if (in == title4)
+		{
+			price=p4;
 			displaysinfo(title4, avseats4, date4, time4);
+		}
 
 		else
 		{
@@ -424,7 +465,9 @@ public:
 
 	}
 
-	void avs()
+	//Function overloading
+
+	void compare()
 	{
 		if (tickname == title1)
 			checkseats(avseats1, seats1);
@@ -462,11 +505,11 @@ public:
 
 		case 'n':
 		{
-			avs();
+			compare();
 			break;
 		}
 
-		default: cout<<"Incorrect choice!";
+		default: cout << "Incorrect choice!";
 		}
 	}
 
@@ -492,8 +535,8 @@ public:
 
 	void getname()
 	{
-		cout<<"\nEnter name of the movie: ";
-		getline(cin>>ws, canname);
+		cout << "\nEnter name of the movie: ";
+		getline(cin >> ws, canname);
 
 		compcan(canname);
 	}
@@ -513,8 +556,8 @@ public:
 			cancel(avseats4, seats4);
 
 		else
-        {
-			cout<<"\nMovie not found! Enter again!";
+		{
+			cout << "\nMovie not found! Enter again!";
 			getname();
 		}
 	}
@@ -522,37 +565,37 @@ public:
 	void cancel(int &av, string seat[])
 	{
 		string seatnum;
-		int num, flag=0;
+		int num, flag = 0, i = 0;
 
-		cout<<"\nHow many seats do you want to cancel?\t";
-		cin>>num;
+		cout << "\nHow many seats do you want to cancel?\t";
+		cin >> num;
 
-		for(int i=0; i<num; i++)
+		for (i = 0; i<num; i++)
 		{
-		    cout << "\n\nEnter seat number (A1, C10, D4...): ";
-		    cin>>seatnum;
+			cout << "\n\nEnter seat number (A1, C10, D4...): ";
+			cin >> seatnum;
 
-			for(int j=0; j<100 ;j++)
+			for (int j = 0; j<100; j++)
 			{
-				if((seat[j]=="Bk") && (backup[j]==seatnum))
+				if ((seat[j] == "Bk") && (backup[j] == seatnum))
 				{
-					seat[j]=backup[j];
-					flag=1;
+					seat[j] = backup[j];
+					flag = 1;
 					break;
 				}
 			}
 		}
 
-		if(flag==0)
+		if (flag == 0)
 		{
-		    cout<<"\nSeat not found or seat is not boooked! Enter again!";
+			cout << "\nSeat not found or seat is not boooked! Enter again!";
 			i--;
 		}
 
 		else
 		{
 			av++;
-		    cout<<"\nSeat cancelled successfully!";
+			cout << "\nSeat cancelled successfully!";
 		}
 	}
 };
@@ -592,38 +635,6 @@ public:
 			cin >> more;
 		} while (more == 'y');
 	}
-
-    //Templates
-
-    template <class T>
-
-	// Overloading the * operator
-
-	snacks operator*(T num)
-	{
-		snacks result;
-
-		for (int i = 0; i < 5; i++)
-			result.squantity[i] *= num;
-	
-		return result;
-	}
-    
-	void ssummary()
-	{
-		float totalCost = 0;
-
-		cout << "\nSnack Summary:\n";
-
-		for (int i = 0; i < 5; i++)
-			if (squantity[i] > 0)
-			{
-				cout << squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
-				totalCost += squantity[i] * sprices[i];
-			}
-		cout << "-----------------------------------------\n";
-		cout << "Total Snack Cost: " << totalCost << "/-" << endl;
-	}
 };
 
 class billing : public booking, public snacks
@@ -631,6 +642,8 @@ class billing : public booking, public snacks
 public:
 
 	char add;
+	float gst=0.18, movietot, totalsnackCost = 0, grand=0.0;
+	int paid=0;
 
 	void asksnacks()
 	{
@@ -639,12 +652,89 @@ public:
 
 		if (add == 'y')
 			addsnacks();
-		ssummary();
+	}
+
+	void pay()
+	{
+		long long card;
+		int expdate;
+		float inamt;
+
+		cout<<"\n\n\n-----Billing-----"<<endl;
+		cout<<"\n"<<"Enter card number (without spaces): ";
+		cin>>card;
+		cout<<"\nEnter expiry:\nDD/MM : \t";
+		cin>>expdate;
+
+		label:
+		cout<<"\nPayable amount: "<<grand<<"/-";
+		cout<<"\n\nEnter amount: ";
+		cin>>inamt;
+
+		if(fabs((inamt-grand))<0.01)
+		{
+			paid=1;
+
+			//File handling
+
+			ofstream payment("transactions.txt", ios::app);
+			
+			payment<<"\nUsername: "<<username[active]<<endl;
+			payment<<"Card number: "<<card<<endl;
+			payment<<"Expiry: "<<expdate<<endl;
+			payment<<"Amount: "<<inamt<<endl;
+			payment<<"---------------------";
+
+			payment.close();
+		}
+
+		else if(inamt<grand)
+		{
+			cout<<"\nInsufficient amount!!";
+			goto label;
+		}
+
+		else if(inamt>grand)
+		{
+			cout<<"\nAmount exceeded!";
+			goto label;
+		}
+
+		if(paid==1)
+		{
+			for(int i=0; i<totaltickets; i++)
+				cout<<"\nTicket "<< i+1 <<" code: "<<rand()%999999+10000;
+
+			cout<<"\n\nKindly note the tickets codes which is required at the time of issuing the tickets at the counter...";
+
+			cout<<"\n\nPayment successfull!\n---Thank you for visiting us!---";
+		}
 	}
 
 	void displaygrand()
 	{
-		//Display the movie price with amount of tickets first. Then snacks, then grand total. For ticket number use rand function
+		cout<<"\n\nName: "<<username[active];
+		cout<<"\nMovie: "<<name<<endl;
+		cout<<"Price: "<<price<<"/- x "<<totaltickets<<endl;
+		movietot=price*totaltickets;
+		cout<<"Total: "<<movietot<<"/-";
+	
+	    
+		cout << "\n\nSnacks :\n";
+
+		for (int i = 0; i < 5; i++)
+			if (squantity[i] > 0)
+			{
+				cout << squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
+				totalsnackCost += squantity[i] * sprices[i];
+			}
+		cout << "Total Snack Cost: " << totalsnackCost << "/-" << endl;
+
+		grand=(movietot+totalsnackCost)+((movietot+totalsnackCost)*gst);
+
+		cout<<"\nGST: "<<(movietot+totalsnackCost)*gst<<endl;
+		cout << "-----------------------------------------\n";
+		cout<<"Grand total: "<<grand<<"/-";
 	}
 };
 
@@ -653,7 +743,7 @@ void header()
 	int line = 24;
 	int space = 2;
 
-	cout<<"\n";
+	cout << "\n";
 
 	for (int i = 0; i < space; i++)
 		cout << ' ';
@@ -662,7 +752,7 @@ void header()
 		cout << '-';
 
 	cout << "\n\n";
-	cout << " " << "MOVIE TICKET BOOKING SYSTEM";
+	cout << " " << "MOVIE TICKET BOOKING SYSTEM";    //Discover new name
 	cout << "\n\n ";
 
 	for (int i = 0; i < space - 1; i++)
@@ -676,61 +766,80 @@ void header()
 
 void account();
 
+void about()
+{
+	cout<<"\n\nNames:\t\t\tKoushik Sharma\t\tJohn Paul Fernandes"<<endl;
+	cout<<"Roll no:\t\t23CE132\t\t\t23CE126"<<endl;
+	cout<<"Class:\t\t\tA1\t\t\tA1"<<endl;
+	cout<<"Batch:\t\t\tB1\t\t\tB1"<<endl;
+	cout<<"Practical batch:\tP12\t\t\tP12"<<endl;
+}
+
 void mainmenu()
 {
 	int choice;
-	billing i;  //Change this
-	booking b;
-	billing bill;
+	billing i;  //Change this to the latest derived class
+	details c;
+	details *d;
 
-	cout << "\n\n   --Dashboard--\n1. Display Shows\n2. Book a seat\n3. Movie Information\n4. Cancel a booked seat\n5. Log out\nSelect the number corresponding to your choice: ";
+
+	cout << "\n\n   --Dashboard--\n1. Display Shows\n2. Book a seat\n3. Movie Information\n4. Cancel a booked seat\n5. About us\n6. Log out\nSelect the number corresponding to your choice: ";
 	cin >> choice;
 
 	switch (choice)
 	{
-		case 1:
-		{
-			i.showsdisplay();
-			break;
-		}
+	case 1:
+	{
+		i.showsdisplay();
+		break;
+	}
 
-		case 2:
-		{
-			i.titles();
-			b.gettickname();
-			b.nooftickets();
-			bill.asksnacks();
-			bill.displaygrand();
-			break;
-		}
+	case 2:
+	{
+		i.titles();
+		i.gettickname();
+		i.nooftickets();
+		i.asksnacks();
+		i.displaygrand();
+		i.pay();
+		break;
+	}
 
-		case 3:
-		{
-			i.titles();
-			i.getname();
-			i.compfordet();
-			break;
-		}
+	case 3:
+	{
+		d = &c;
+		d->titles();
+		d->getname();
+		break;
+	}
 
-		case 4:
-		{
-			b.getname();
-			break;
-		}
+	case 4:
+	{
+		booking e;
+		d = &e;
+		d->getname();
+		break;
+	}
 
-		case 5:
-		{
-			header();
-			account();
-			mainmenu();
-			break;
-		}
+	case 6:
+	{
+		header();
+		account();
+		mainmenu();
+		break;
+	}
 
-		default:
-		{ 
-			cout << "\nInvalid choice!!";
-			mainmenu();
-	    }
+	case 5:
+	{
+		about();
+		break;
+	}
+
+	default:
+	{
+		cout << "\nInvalid choice!!";
+		mainmenu();
+	}
 	}
 }
 
@@ -743,33 +852,33 @@ void buttons(char &cho)
 
 void account()
 {
-    int acc;
+	int acc;
 
-    cout<<"\nGet started by creating you account!\n\n1. New User? Sign up\n2. Having an account? Log in\n\nSelect the number corresponding to your choice: ";
-    cin>>acc;
+	cout << "\nGet started by creating you account!\n\n1. New User? Sign up\n2. Having an account? Log in\n\nSelect the number corresponding to your choice: ";
+	cin >> acc;
 
-    switch(acc)
-    {
-        case 1: 
-        {
-            SignIn s;
-            s.getuser();
-            break;
-        }
+	switch (acc)
+	{
+	case 1:
+	{
+		SignIn s;
+		s.getuser();
+		break;
+	}
 
-        case 2:
-        {
-            LogIn l;
-			l.getuser();
-			break;
-        }
+	case 2:
+	{
+		LogIn l;
+		l.getuser();
+		break;
+	}
 
-        default: 
-        {
-            cout<<"\nInvalid choice!"<<endl;
-            account();
-        }
-    }
+	default:
+	{
+		cout << "\nInvalid choice!" << endl;
+		account();
+	}
+	}
 }
 
 int main()
@@ -777,7 +886,7 @@ int main()
 	char cont;
 
 	header();
-    account();
+	account();
 
 	do
 	{
