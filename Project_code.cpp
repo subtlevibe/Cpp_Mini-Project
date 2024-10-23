@@ -1,16 +1,17 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include<iostream>
-#include<conio.h>
-#include<string>
-#include<iomanip>
-#include<math.h>
-#include<fstream>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <iomanip>
+#include <math.h>
+#include <fstream>
 using namespace std;
+
+string actuser;
 
 class User
 {
 protected:
-    int active;
 	static string username[100];
 	static string password[100];
 };
@@ -21,13 +22,12 @@ string User::password[100];
 class SignIn : virtual public User
 {
 protected:
-
+	char ch;
 	string user, pass;
 	int flag = 0;
 	static int locator;
 
 public:
-
 	void getuser()
 	{
 		cout << "\nEnter username: ";
@@ -36,11 +36,11 @@ public:
 		checkuser();
 	}
 
-	//Check for existence
+	// Check for existence
 
 	inline void checkuser()
 	{
-		for (int i = 0; i<100; i++)
+		for (int i = 0; i < 100; i++)
 			if (username[i] == user)
 			{
 				flag = 1;
@@ -63,23 +63,47 @@ public:
 		username[locator] = user;
 
 		cout << "Enter password: ";
-		cin >> pass;
+		pass.clear();
+		ch = getch();
+
+		while (ch != 13)
+		{
+			if (ch == 8)
+			{
+				if (!pass.empty())
+				{
+					pass.pop_back();
+					cout<<"\b \b";
+				}
+			}
+
+			else
+			{
+				pass.push_back(ch);
+				cout << "*";
+			}
+
+			ch = getch();
+		}
+
 
 		password[locator] = pass;
 
-		active=locator;
+		actuser = username[locator];
 		display();
 	}
 
 	inline void display()
 	{
-		cout<<"\n\n";
-		for(int i=0; i<(username[locator].length()+1+10+2); i++)
-		cout << "-";
+		system("cls");
+
+		cout << "\n\n";
+		for (int i = 0; i < (username[locator].length() + 1 + 10 + 2); i++)
+			cout << "-";
 		cout << "\n\n  Welcome " << username[locator] << "!";
 		cout << "\n\n";
-		for(int j=0; j<(username[locator].length()+1+10+2); j++)
-		cout<<"-";
+		for (int j = 0; j < (username[locator].length() + 1 + 10 + 2); j++)
+			cout << "-";
 	}
 };
 
@@ -88,12 +112,11 @@ int SignIn::locator = -1;
 class LogIn : virtual public User
 {
 protected:
-
+	char ch;
 	string user, pass;
 	int flag = 0, i = 0;
 
 public:
-
 	void getuser()
 	{
 		cout << "\nEnter username: ";
@@ -104,7 +127,7 @@ public:
 
 	void checkuser()
 	{
-		for (i = 0; i<100; i++)
+		for (i = 0; i < 100; i++)
 			if (username[i] == user)
 			{
 				flag = 1;
@@ -124,19 +147,40 @@ public:
 	void getpass()
 	{
 		cout << "Enter password: ";
-		cin >> pass;
+		pass.clear();
+		ch = getch();
+
+		while (ch != 13)
+		{
+			if (ch == 8)
+			{
+				if (!pass.empty())
+				{
+					pass.pop_back();
+					cout<<"\b \b";
+				}
+			}
+
+			else
+			{
+				pass.push_back(ch);
+				cout << "*";
+			}
+			
+			ch = getch();
+		}
 
 		checkpass();
 	}
 
 	void checkpass()
 	{
-		//Match
+		// Match
 
 		if (password[i] == pass)
 		{
 			cout << "\nLogin success!";
-			active=i;
+			actuser = username[i];
 			captcha();
 		}
 
@@ -163,20 +207,21 @@ public:
 
 	void display()
 	{
-		cout<<"\n\n";
-		for(int k=0; k<(username[i].length()+1+10+2); k++)
-		cout << "-";
+		system("cls");
+
+		cout << "\n\n";
+		for (int k = 0; k < (username[i].length() + 1 + 10 + 2); k++)
+			cout << "-";
 		cout << "\n\n  Welcome " << username[i] << "!";
 		cout << "\n\n";
-		for(int j=0; j<(username[i].length()+1+10+2); j++)
-        cout<<"-";
+		for (int j = 0; j < (username[i].length() + 1 + 10 + 2); j++)
+			cout << "-";
 	}
 };
 
 class Movies : public SignIn, public LogIn
 {
 public:
-
 	string title1, title2, title3, title4;
 	string time1, time2, time3, time4;
 	string gen1, gen2, gen3, gen4;
@@ -199,8 +244,7 @@ public:
 class details : public Movies
 {
 protected:
-
-	//Static Data Members
+	// Static Data Members
 
 	static int avseats1;
 	static int avseats2;
@@ -212,12 +256,11 @@ protected:
 	static string seats3[100];
 	static string seats4[100];
 
-	//Constant data member
+	// Constant data member
 
-	const string backup[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
+	const string backup[100] = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10"};
 
 public:
-
 	string tbc;
 
 	details()
@@ -313,17 +356,17 @@ public:
 
 void bookseats(string s[], int t);
 
-//Friend Class
+// Friend Class
 class seats
 {
 public:
-
 	void displayseats(string seatsdis[], int ttickets)
 	{
 		cout << "\n\nAvailable seats: \t\t\t\t      ('Bk' indicates Booked)";
 		cout << "\n\n-----------------------------------------------------------------------------" << endl;
 		cout << "\t\t\t\tSCREEN";
-		cout << "\n-----------------------------------------------------------------------------" << endl << endl;
+		cout << "\n-----------------------------------------------------------------------------" << endl
+			 << endl;
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -341,29 +384,28 @@ public:
 			cout << "\n";
 		}
 
-		if (ttickets>0)
+		if (ttickets > 0)
 			bookseats(seatsdis, ttickets);
 	}
 
 	friend void bookseats(string s[], int t);
-
 };
 
-//Friend function
+// Friend function
 
 void bookseats(string s[], int t)
 {
 	string seatnum;
 	int flag = 0;
 
-	for (int i = 0; i<t; i++)
+	for (int i = 0; i < t; i++)
 	{
 		cout << "\n\nEnter seat number (A1, C10, D4...): ";
 		cin >> seatnum;
 
-		//Linear search
+		// Linear search
 
-		for (int j = 0; j<100; j++)
+		for (int j = 0; j < 100; j++)
 		{
 			if (s[j] == seatnum)
 			{
@@ -384,19 +426,19 @@ void bookseats(string s[], int t)
 	}
 }
 
-//Initializing static data members here (Cannot be done inside a class)
+// Initializing static data members here (Cannot be done inside a class)
 
 int details::avseats1 = 100;
 int details::avseats2 = 100;
 int details::avseats3 = 100;
 int details::avseats4 = 100;
 
-string details::seats1[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
-string details::seats2[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
-string details::seats3[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
-string details::seats4[100] = { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10" };
+string details::seats1[100] = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10"};
+string details::seats2[100] = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10"};
+string details::seats3[100] = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10"};
+string details::seats4[100] = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10"};
 
-//Global variables, inheritance not working properly
+// Global variables, inheritance not working properly
 
 float price;
 string name;
@@ -405,17 +447,15 @@ int totaltickets = 1;
 class booking : public seats, public details
 {
 protected:
-
 	string tickname;
 	string canname;
-	
-	public:
 
+public:
 	void gettickname()
 	{
 		cout << "\nEnter the name of the movie: ";
 		getline(cin >> ws, tickname);
-		name=tickname;
+		name = tickname;
 
 		compare(tickname);
 	}
@@ -429,31 +469,31 @@ protected:
 		cout << "Time:            " << time << endl;
 	}
 
-	//Function overloading
+	// Function overloading
 
 	void compare(string in)
 	{
 		if (in == title1)
 		{
-			price=p1;
+			price = p1;
 			displaysinfo(title1, avseats1, date1, time1);
 		}
 
 		else if (in == title2)
 		{
-			price=p2;
+			price = p2;
 			displaysinfo(title2, avseats2, date2, time2);
 		}
 
 		else if (in == title3)
 		{
-			price=p3;
+			price = p3;
 			displaysinfo(title3, avseats3, date3, time3);
 		}
 
 		else if (in == title4)
 		{
-			price=p4;
+			price = p4;
 			displaysinfo(title4, avseats4, date4, time4);
 		}
 
@@ -462,10 +502,9 @@ protected:
 			cout << "\nMovie not found!";
 			gettickname();
 		}
-
 	}
 
-	//Function overloading
+	// Function overloading
 
 	void compare()
 	{
@@ -482,7 +521,7 @@ protected:
 			checkseats(avseats4, seats4);
 	}
 
-	void nooftickets(int tickets = 1)      //Default argument
+	void nooftickets(int tickets = 1) // Default argument
 	{
 		cout << "\nTotal tickets: " << tickets;
 		addtickets();
@@ -509,7 +548,8 @@ protected:
 			break;
 		}
 
-		default: cout << "Incorrect choice!";
+		default:
+			cout << "Incorrect choice!";
 		}
 	}
 
@@ -523,7 +563,7 @@ protected:
 
 	void checkseats(int &s, string seat[])
 	{
-		if (s<totaltickets)
+		if (s < totaltickets)
 			cout << "\nInsufficient seats!";
 
 		else
@@ -570,12 +610,12 @@ protected:
 		cout << "\nHow many seats do you want to cancel?\t";
 		cin >> num;
 
-		for (i = 0; i<num; i++)
+		for (i = 0; i < num; i++)
 		{
 			cout << "\n\nEnter seat number (A1, C10, D4...): ";
 			cin >> seatnum;
 
-			for (int j = 0; j<100; j++)
+			for (int j = 0; j < 100; j++)
 			{
 				if ((seat[j] == "Bk") && (backup[j] == seatnum))
 				{
@@ -603,16 +643,15 @@ protected:
 class snacks
 {
 public:
-
-	string slist[5] = { "Popcorn", "Nachos", "Soda", "Candy", "Fries" };
-	double sprices[5] = { 29.9, 40.1, 24.9, 14.9, 50.1 };
-	int squantity[5] = { 0 };
+	string slist[5] = {"Popcorn", "Nachos", "Soda", "Candy", "Fries"};
+	double sprices[5] = {29.9, 40.1, 24.9, 14.9, 50.1};
+	int squantity[5] = {0};
 
 	void addsnacks()
 	{
 		cout << "\n\n--Available Snacks--" << endl;
 
-		for (int i = 0; i<5; i++)
+		for (int i = 0; i < 5; i++)
 			cout << i + 1 << ". " << slist[i] << "    \t" << sprices[i] << "/-" << endl;
 
 		int choice, quantity;
@@ -625,7 +664,7 @@ public:
 			cout << "Enter quantity: ";
 			cin >> quantity;
 
-			if (choice>0 && choice <= 5)
+			if (choice > 0 && choice <= 5)
 				squantity[choice - 1] += quantity;
 
 			else
@@ -640,10 +679,9 @@ public:
 class billing : public booking, public snacks
 {
 public:
-
 	char add;
-	float gst=0.18, movietot, totalsnackCost = 0, grand=0.0;
-	int paid=0;
+	float gst = 0.18, movietot, totalsnackCost = 0, grand = 0.0;
+	int paid = 0;
 
 	void asksnacks()
 	{
@@ -660,66 +698,66 @@ public:
 		int expdate;
 		float inamt;
 
-		cout<<"\n\n\n-----Billing-----"<<endl;
-		cout<<"\n"<<"Enter card number (without spaces): ";
-		cin>>card;
-		cout<<"\nEnter expiry:\nDD/MM : \t";
-		cin>>expdate;
+		cout << "\n\n\n-----Billing-----" << endl;
+		cout << "\n"
+			 << "Enter card number (without spaces): ";
+		cin >> card;
+		cout << "\nEnter expiry:\nDD/MM : \t";
+		cin >> expdate;
 
-		label:
-		cout<<"\nPayable amount: "<<grand<<"/-";
-		cout<<"\n\nEnter amount: ";
-		cin>>inamt;
+	label:
+		cout << "\nPayable amount: " << grand << "/-";
+		cout << "\n\nEnter amount: ";
+		cin >> inamt;
 
-		if(fabs((inamt-grand))<0.01)
+		if (fabs((inamt - grand)) < 0.01)
 		{
-			paid=1;
+			paid = 1;
 
-			//File handling
+			// File handling
 
 			ofstream payment("transactions.txt", ios::app);
-			
-			payment<<"\nUsername: "<<username[active]<<endl;
-			payment<<"Card number: "<<card<<endl;
-			payment<<"Expiry: "<<expdate<<endl;
-			payment<<"Amount: "<<inamt<<endl;
-			payment<<"---------------------";
+
+			payment << "\nUsername: " << actuser << endl;
+			payment << "Card number: " << card << endl;
+			payment << "Expiry: " << expdate << endl;
+			payment << "Amount: " << inamt << endl;
+			payment << "---------------------";
 
 			payment.close();
 		}
 
-		else if(inamt<grand)
+		else if (inamt < grand)
 		{
-			cout<<"\nInsufficient amount!!";
+			cout << "\nInsufficient amount!!";
 			goto label;
 		}
 
-		else if(inamt>grand)
+		else if (inamt > grand)
 		{
-			cout<<"\nAmount exceeded!";
+			cout << "\nAmount exceeded!";
 			goto label;
 		}
 
-		if(paid==1)
+		if (paid == 1)
 		{
-			for(int i=0; i<totaltickets; i++)
-				cout<<"\nTicket "<< i+1 <<" code: "<<rand()%999999+10000;
+			for (int i = 0; i < totaltickets; i++)
+				cout << "\nTicket " << i + 1 << " code: " << rand() % 999999 + 10000;
 
-			cout<<"\n\nKindly note the tickets codes which is required at the time of issuing the tickets at the counter...";
+			cout << "\n\nKindly note the tickets codes which is required at the time of issuing the tickets at the counter...";
 
-			cout<<"\n\nPayment successfull!\n---Thank you for visiting us!---";
+			cout << "\n\nPayment successfull!\n---Thank you for visiting us!---";
 		}
 	}
 
 	void displaygrand()
 	{
-		cout<<"\n\nName: "<<username[active];
-		cout<<"\nMovie: "<<name<<endl;
-		cout<<"Price: "<<price<<"/- x "<<totaltickets<<endl;
-		movietot=price*totaltickets;
-		cout<<"Total: "<<movietot<<"/-";
-	
-	    
+		cout << "\n\nName: " << actuser;
+		cout << "\nMovie: " << name << endl;
+		cout << "Price: " << price << "/- x " << totaltickets << endl;
+		movietot = price * totaltickets;
+		cout << "Total: " << movietot << "/-";
+
 		cout << "\n\nSnacks :\n";
 
 		for (int i = 0; i < 5; i++)
@@ -730,11 +768,11 @@ public:
 			}
 		cout << "Total Snack Cost: " << totalsnackCost << "/-" << endl;
 
-		grand=(movietot+totalsnackCost)+((movietot+totalsnackCost)*gst);
+		grand = (movietot + totalsnackCost) + ((movietot + totalsnackCost) * gst);
 
-		cout<<"\nGST: "<<(movietot+totalsnackCost)*gst<<endl;
+		cout << "\nGST: " << (movietot + totalsnackCost) * gst << endl;
 		cout << "-----------------------------------------\n";
-		cout<<"Grand total: "<<grand<<"/-";
+		cout << "Grand total: " << grand << "/-";
 	}
 };
 
@@ -752,7 +790,7 @@ void header()
 		cout << '-';
 
 	cout << "\n\n";
-	cout << " " << "MOVIE TICKET BOOKING SYSTEM";    //Discover new name
+	cout << " " << "MOVIE TICKET BOOKING SYSTEM"; // Discover new name
 	cout << "\n\n ";
 
 	for (int i = 0; i < space - 1; i++)
@@ -768,20 +806,19 @@ void account();
 
 void about()
 {
-	cout<<"\n\nNames:\t\t\tKoushik Sharma\t\tJohn Paul Fernandes"<<endl;
-	cout<<"Roll no:\t\t23CE132\t\t\t23CE126"<<endl;
-	cout<<"Class:\t\t\tA1\t\t\tA1"<<endl;
-	cout<<"Batch:\t\t\tB1\t\t\tB1"<<endl;
-	cout<<"Practical batch:\tP12\t\t\tP12"<<endl;
+	cout << "\n\nNames:\t\t\tKoushik Sharma\t\tJohn Paul Fernandes" << endl;
+	cout << "Roll no:\t\t23CE132\t\t\t23CE126" << endl;
+	cout << "Class:\t\t\tA1\t\t\tA1" << endl;
+	cout << "Batch:\t\t\tB1\t\t\tB1" << endl;
+	cout << "Practical batch:\tP12\t\t\tP12" << endl;
 }
 
 void mainmenu()
 {
 	int choice;
-	billing i;  //Change this to the latest derived class
+	billing i; // Change this to the latest derived class
 	details c;
 	details *d;
-
 
 	cout << "\n\n   --Dashboard--\n1. Display Shows\n2. Book a seat\n3. Movie Information\n4. Cancel a booked seat\n5. About us\n6. Log out\nSelect the number corresponding to your choice: ";
 	cin >> choice;
