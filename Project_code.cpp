@@ -1,3 +1,5 @@
+// C++ Mini Project
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <conio.h>
@@ -8,6 +10,14 @@
 using namespace std;
 
 string actuser;
+
+void centerText(string text)
+{
+	int consoleWidth = 170;
+
+	int padding = (consoleWidth - text.size()) / 2;
+	cout << setw(padding + text.size()) << text;
+}
 
 class User
 {
@@ -30,7 +40,8 @@ protected:
 public:
 	void getuser()
 	{
-		cout << "\nEnter username: ";
+		cout << "\n";
+		centerText("Enter username: ");
 		cin >> user;
 
 		checkuser();
@@ -49,7 +60,8 @@ public:
 
 		if (flag == 1)
 		{
-			cout << "\nAn account with the same username is already existing!";
+			cout << "\n";
+			centerText("An account with the same username is already existing!");
 			getuser();
 		}
 
@@ -62,7 +74,8 @@ public:
 		locator++;
 		username[locator] = user;
 
-		cout << "Enter password: ";
+		cout << "\n";
+		centerText("Enter password: ");
 		pass.clear();
 		ch = getch();
 
@@ -73,7 +86,7 @@ public:
 				if (!pass.empty())
 				{
 					pass.pop_back();
-					cout<<"\b \b";
+					cout << "\b \b";
 				}
 			}
 
@@ -86,7 +99,6 @@ public:
 			ch = getch();
 		}
 
-
 		password[locator] = pass;
 
 		actuser = username[locator];
@@ -98,12 +110,11 @@ public:
 		system("cls");
 
 		cout << "\n\n";
-		for (int i = 0; i < (username[locator].length() + 1 + 10 + 2); i++)
-			cout << "-";
-		cout << "\n\n  Welcome " << username[locator] << "!";
-		cout << "\n\n";
-		for (int j = 0; j < (username[locator].length() + 1 + 10 + 2); j++)
-			cout << "-";
+		int length = username[locator].length() + 1 + 10 + 2;
+
+		cout << setw(208 + 21 + 12 + 2) << ' ' << setw(length) << setfill('-') << '-' << "\n\n";
+		cout << setw(260 - 6) << setfill(' ') << " Welcome " << username[locator] << "!\n\n";
+		cout << setw(208 + 21 + 12 + 2) << ' ' << setw(length) << setfill('-') << '-' << setfill(' ') << "\n";
 	}
 };
 
@@ -119,7 +130,8 @@ protected:
 public:
 	void getuser()
 	{
-		cout << "\nEnter username: ";
+		cout << "\n";
+		centerText("Enter username: ");
 		cin >> user;
 
 		checkuser();
@@ -136,7 +148,9 @@ public:
 
 		if (flag == 0)
 		{
-			cout << "\nNo such account with the username" << endl;
+			cout << "\n";
+			centerText("No such account with the username");
+			cout << endl;
 			getuser();
 		}
 
@@ -146,7 +160,8 @@ public:
 
 	void getpass()
 	{
-		cout << "Enter password: ";
+		cout << "\n";
+		centerText("Enter password: ");
 		pass.clear();
 		ch = getch();
 
@@ -157,7 +172,7 @@ public:
 				if (!pass.empty())
 				{
 					pass.pop_back();
-					cout<<"\b \b";
+					cout << "\b \b";
 				}
 			}
 
@@ -166,7 +181,7 @@ public:
 				pass.push_back(ch);
 				cout << "*";
 			}
-			
+
 			ch = getch();
 		}
 
@@ -179,14 +194,17 @@ public:
 
 		if (password[i] == pass)
 		{
-			cout << "\nLogin success!";
+			cout << "\n";
+			centerText("Login success!");
 			actuser = username[i];
 			captcha();
 		}
 
 		else
 		{
-			cout << "\nIncorrect password!" << endl;
+			cout << "\n";
+			centerText("Incorrect password!");
+			cout << endl;
 			getpass();
 		}
 	}
@@ -196,9 +214,10 @@ public:
 		int captcha, entcap;
 
 		captcha = rand() % 10000 + 100;
-
-		cout << "\n\nCode: " << captcha;
-		cout << "\nEnter captcha: ";
+		cout << "\n\n";
+		cout << setw(80 - 3 + 10) << "Code: " << captcha;
+		cout << "\n";
+		centerText("Enter captcha: ");
 		cin >> entcap;
 
 		if (captcha == entcap)
@@ -208,14 +227,11 @@ public:
 	void display()
 	{
 		system("cls");
-
 		cout << "\n\n";
-		for (int k = 0; k < (username[i].length() + 1 + 10 + 2); k++)
-			cout << "-";
-		cout << "\n\n  Welcome " << username[i] << "!";
-		cout << "\n\n";
-		for (int j = 0; j < (username[i].length() + 1 + 10 + 2); j++)
-			cout << "-";
+		int length = username[i].length() + 1 + 10 + 2;
+		cout << setw(length) << setfill('-') << '-' << setfill(' ') << "\n\n";
+		cout << " Welcome " << username[i] << "!\n\n";
+		cout << setw(length) << setfill('-') << '-' << setfill(' ') << "\n";
 	}
 };
 
@@ -232,12 +248,13 @@ public:
 
 	void showsdisplay()
 	{
-		cout << "\n\nName\t\t\tTime\t\t   Date" << endl;
-		cout << "--------------------------------------------------" << endl;
-		cout << title1 << "\t\t" << time1 << "\t\t" << date1 << endl;
-		cout << title2 << "\t\t" << time2 << "\t\t" << date2 << endl;
-		cout << title3 << "\t\t" << time3 << "\t\t" << date3 << endl;
-		cout << title4 << "\t\t" << time4 << "\t\t" << date4 << endl;
+		cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		cout << setw(75 - 8) << "Name" << setw(12 + 8) << "Time" << setw(11 + 9) << "Date" << endl;
+		cout << setw(75 - 12 - 3) << setfill(' ') << "" << setfill('-') << setw(50) << "-" << setfill(' ') << endl;
+		cout << setw(75 - 4 - 1) << title1 << setw(8 + 5 + 5 - 1 + 1) << time1 << setw(10 + 8 + 4) << date1 << endl;
+		cout << setw(75 - 4 - 1 + 3) << title2 << setw(8 + 5 + 5 - 1 + 1 - 3) << time2 << setw(10 + 8 + 4 + 1 - 3 + 2) << date2 << endl;
+		cout << setw(75 - 4 - 1 + 5) << title3 << setw(8 + 5 + 5 - 1 + 1 - 5) << time3 << setw(10 + 8 + 4 + 1 - 5 + 4) << date3 << endl;
+		cout << setw(75 - 4 - 1 + 2) << title4 << setw(8 + 5 + 5 - 1 + 1 - 2) << time4 << setw(10 + 8 + 4 + 1 - 2 + 1) << date4 << endl;
 	}
 };
 
@@ -303,20 +320,24 @@ public:
 
 	void titles()
 	{
-		cout << "\n\nAvailable movies:";
-		cout << "\n\nMovie Names\t     Ticket price\n";
-		cout << "-------------------------------------\n\n";
-		cout << title1 << " \t\t1,500/-" << endl;
-		cout << title2 << " \t\t2,000/-" << endl;
-		cout << title3 << "\t\t2,500/-" << endl;
-		cout << title4 << " \t\t1,250/-" << endl;
+		cout << "\n\n\n\n\n\n";
+		centerText("Available movies:");
+		cout << "\n\n"
+			 << setw(75) << "Movie Names" << setw(9 + 21) << "Ticket price\n";
+		cout << setw(75 - 11) << ' ' << setfill('-') << setw(38 + 2) << "-" << setfill(' ') << endl
+			 << endl;
+		cout << setw(64) << ' ' << title1 << setw(8 + 12) << ' ' << "1,500/-" << endl;
+		cout << setw(64) << ' ' << title2 << setw(8 + 12 - 3) << ' ' << "2,000/-" << endl;
+		cout << setw(64) << ' ' << title3 << setw(8 + 12 - 5) << ' ' << "2,500/-" << endl;
+		cout << setw(64) << ' ' << title4 << setw(8 + 12 - 2) << ' ' << "1,250/-" << endl;
 	}
 
 	// Virtual function
 
 	virtual void getname()
 	{
-		cout << "\nEnter name of the movie: ";
+		cout << "\n";
+		centerText("Enter name of the movie: ");
 		getline(cin >> ws, tbc);
 
 		compfordet();
@@ -325,10 +346,10 @@ public:
 	void displaydetails(string title, string gen, string t, float r)
 	{
 		cout << "\n";
-		cout << "Movie:           " << title << endl;
-		cout << "Genre:           " << gen << endl;
-		cout << "Time Length:     " << t << endl;
-		cout << "Rating:          " << r << "/10";
+		cout << setw(75 - 2) << ' ' << "Movie:" << setw(11) << ' ' << title << endl;
+		cout << setw(75 - 2) << ' ' << "Genre:" << setw(11) << ' ' << gen << endl;
+		cout << setw(75 - 2) << ' ' << "Time Length:" << setw(5) << ' ' << t << endl;
+		cout << setw(75 - 2) << ' ' << "Rating:" << setw(11 - 1) << ' ' << r << "/10";
 	}
 
 	void compfordet()
@@ -362,16 +383,19 @@ class seats
 public:
 	void displayseats(string seatsdis[], int ttickets)
 	{
-		cout << "\n\nAvailable seats: \t\t\t\t      ('Bk' indicates Booked)";
-		cout << "\n\n-----------------------------------------------------------------------------" << endl;
-		cout << "\t\t\t\tSCREEN";
-		cout << "\n-----------------------------------------------------------------------------" << endl
-			 << endl;
+		cout << "\n\n";
+		cout << setw(65 - 10) << ' ' << "Available seats:" << setw(23) << ' ' << "'Bk' indicates Booked)";
+		cout << "\n\n";
+		cout << setw(65 - 10 - 10) << ' ' << setw(78) << setfill('-') << '-' << setfill(' ') << ' ' << endl;
+		centerText("SCREEN");
+		cout << "\n";
+		cout << setw(65 - 10 - 10) << ' ' << setw(78) << setfill('-') << '-' << setfill(' ') << endl;
 
 		for (int i = 0; i < 5; i++)
 		{
+			cout << setw(65 - 15);
 			for (int j = 0; j < 10; j++)
-				cout << "[" << seatsdis[i * 10 + j] << "]\t";
+				cout << "[" << seatsdis[i * 10 + j] << "]" << setw(4);
 			cout << "\n";
 		}
 
@@ -379,8 +403,9 @@ public:
 
 		for (int i = 5; i < 10; i++)
 		{
+			cout << setw(65 - 15);
 			for (int j = 0; j < 10; j++)
-				cout << "[" << seatsdis[i * 10 + j] << "]\t";
+				cout << "[" << seatsdis[i * 10 + j] << "]" << setw(4);
 			cout << "\n";
 		}
 
@@ -400,7 +425,8 @@ void bookseats(string s[], int t)
 
 	for (int i = 0; i < t; i++)
 	{
-		cout << "\n\nEnter seat number (A1, C10, D4...): ";
+		cout << "\n\n";
+		centerText("Enter seat number (A1, C10, D4...): ");
 		cin >> seatnum;
 
 		// Linear search
@@ -411,14 +437,14 @@ void bookseats(string s[], int t)
 			{
 				flag = 1;
 				s[j] = "Bk";
-				cout << "Seat booked!";
+				centerText("Seat booked!");
 				break;
 			}
 		}
 
 		if (flag == 0)
 		{
-			cout << "Seat not found! Enter again!";
+			centerText("Seat not found! Enter again!");
 			i--;
 		}
 
@@ -453,7 +479,8 @@ protected:
 public:
 	void gettickname()
 	{
-		cout << "\nEnter the name of the movie: ";
+		cout << "\n";
+		centerText("Enter the name of the movie: ");
 		getline(cin >> ws, tickname);
 		name = tickname;
 
@@ -463,10 +490,10 @@ public:
 	void displaysinfo(string title, int avseats, string date, string time)
 	{
 		cout << "\n";
-		cout << "Movie:           " << title << endl;
-		cout << "Available seats: " << avseats << endl;
-		cout << "Date:            " << date << endl;
-		cout << "Time:            " << time << endl;
+		cout << setw(60 + 4 + 6) << ' ' << "Movie:" << setw(11) << ' ' << title << endl;
+		cout << setw(60 + 4 + 6) << ' ' << "Available seats:" << setw(1) << ' ' << avseats << endl;
+		cout << setw(60 + 4 + 6) << ' ' << "Date:" << setw(12) << ' ' << date << endl;
+		cout << setw(60 + 4 + 6) << ' ' << "Time:" << setw(12) << ' ' << time << endl;
 	}
 
 	// Function overloading
@@ -523,7 +550,9 @@ public:
 
 	void nooftickets(int tickets = 1) // Default argument
 	{
-		cout << "\nTotal tickets: " << tickets;
+		cout << "\n";
+		centerText("Total tickets: ");
+		cout << tickets;
 		addtickets();
 	}
 
@@ -531,7 +560,9 @@ public:
 	{
 		char addmore;
 
-		cout << "\nDo you want to add more tickets?\tYes-(y)    No-(n): ";
+		cout << "\n";
+		centerText("Do you want to add more tickets?    Yes-(y)    No-(n): ");
+		;
 		cin >> addmore;
 
 		switch (addmore)
@@ -555,7 +586,8 @@ public:
 
 	void getnumber()
 	{
-		cout << "\nEnter total number of tickets: ";
+		cout << "\n";
+		centerText("Enter total number of tickets: ");
 		cin >> totaltickets;
 
 		nooftickets(totaltickets);
@@ -569,6 +601,7 @@ public:
 		else
 		{
 			s = s - totaltickets;
+			system("CLS");
 			displayseats(seat, totaltickets);
 		}
 	}
@@ -628,14 +661,16 @@ public:
 
 		if (flag == 0)
 		{
-			cout << "\nSeat not found or seat is not boooked! Enter again!";
+			cout << "\n";
+			centerText("Seat not found or seat is not boooked! Enter again!");
 			i--;
 		}
 
 		else
 		{
 			av++;
-			cout << "\nSeat cancelled successfully!";
+			cout << "\n";
+			centerText("Seat cancelled successfully!");
 		}
 	}
 };
@@ -643,71 +678,88 @@ public:
 class snacks
 {
 public:
-	string slist[5] = {"Popcorn", "Nachos", "Soda", "Candy", "Fries"};
+	string slist[5] = {"Popcorn", "Nachos ", "Soda   ", "Candy  ", "Fries  "};
 	double sprices[5] = {29.9, 40.1, 24.9, 14.9, 50.1};
 	int squantity[5] = {0};
 
 	void addsnacks()
 	{
-		cout << "\n\n--Available Snacks--" << endl;
+		system("CLS");
+
+		cout << "\n\n";
+		centerText("--Available Snacks--");
+		cout << endl;
 
 		for (int i = 0; i < 5; i++)
-			cout << i + 1 << ". " << slist[i] << "    \t" << sprices[i] << "/-" << endl;
+			cout << setw(65+8) << ' ' << i + 1 << ". " << slist[i] << setw(8) << ' ' << sprices[i] << "/-" << endl;
 
 		int choice, quantity;
 		char more;
 
 		do
 		{
-			cout << "\nEnter the snack number: ";
+			cout << "\n";
+			centerText("Enter the snack number: ");
 			cin >> choice;
-			cout << "Enter quantity: ";
+			centerText("Enter quantity: ");
 			cin >> quantity;
 
 			if (choice > 0 && choice <= 5)
 				squantity[choice - 1] += quantity;
 
 			else
-				cout << "\nInvalid choice!";
+			{
+				cout << "\n";
+				centerText("Invalid choice!");
+			}
 
-			cout << "\nDo you want to add more snacks?\tYes-(y)    No-(n): ";
+			cout << "\n\n\n";
+			centerText("Do you want to add more snacks?    Yes-(y)    No-(n): ");
 			cin >> more;
 		} while (more == 'y');
+	}
+
+	char add;
+
+	void asksnacks()
+	{
+		cout << "\n\n\n\n";
+		centerText("Do you want to add snacks?    Yes-(y)    No-(n): ");
+		cin >> add;
+
+		if (add == 'y')
+			addsnacks();
 	}
 };
 
 class billing : public booking, public snacks
 {
 public:
-	char add;
 	float gst = 0.18, movietot, totalsnackCost = 0, grand = 0.0;
 	int paid = 0;
-
-	void asksnacks()
-	{
-		cout << "\n\nDo you want to add snacks?\tYes-(y)    No-(n): ";
-		cin >> add;
-
-		if (add == 'y')
-			addsnacks();
-	}
 
 	void pay()
 	{
 		long long card;
-		int expdate;
+		string expdate;
 		float inamt;
 
-		cout << "\n\n\n-----Billing-----" << endl;
-		cout << "\n"
-			 << "Enter card number (without spaces): ";
+		cout << "\n\n\n";
+		centerText("-----Billing-----");
+		cout << endl;
+		cout << "\n";
+			 centerText("Enter card number (without spaces): ");
 		cin >> card;
-		cout << "\nEnter expiry:\nDD/MM : \t";
-		cin >> expdate;
+		cout << "\n";
+		centerText("Enter expiry:");
+		centerText("DD/MM :   ");
+		getline(cin>>ws, expdate);
 
 	label:
-		cout << "\nPayable amount: " << grand << "/-";
-		cout << "\n\nEnter amount: ";
+		cout << "\n";
+		centerText("Payable amount: " ); cout<< grand << "/-";
+		cout << "\n\n";
+		centerText("Enter amount: ");
 		cin >> inamt;
 
 		if (fabs((inamt - grand)) < 0.01)
@@ -729,88 +781,97 @@ public:
 
 		else if (inamt < grand)
 		{
-			cout << "\nInsufficient amount!!";
+			cout << "\n";
+			centerText("Insufficient amount!!");
 			goto label;
 		}
 
 		else if (inamt > grand)
 		{
-			cout << "\nAmount exceeded!";
+			cout << "\n";
+			centerText("Amount exceeded!");
 			goto label;
 		}
 
-		if (paid == 1)
+		if (paid == 1) // Print the ticket from the file
 		{
+			system("CLs");
+
 			for (int i = 0; i < totaltickets; i++)
-				cout << "\nTicket " << i + 1 << " code: " << rand() % 999999 + 10000;
+			{
+				cout << "\n";
+				centerText("Ticket ");cout << i + 1 << " code: " << rand() % 999999 + 10000;
+				}
 
-			cout << "\n\nKindly note the tickets codes which is required at the time of issuing the tickets at the counter...";
+			cout << "\n\n";
+			centerText("Kindly note the tickets codes which is required at the time of entering the theatre...");
+			centerText("The same has been mailed to your email!");
 
-			cout << "\n\nPayment successfull!\n---Thank you for visiting us!---";
+			cout << "\n\n";
+			centerText("Payment successfull!");
+			cout<<"\n";
+			centerText("---Thank you for visiting us!---");
 		}
 	}
 
 	void displaygrand()
 	{
-		cout << "\n\nName: " << actuser;
-		cout << "\nMovie: " << name << endl;
-		cout << "Price: " << price << "/- x " << totaltickets << endl;
+		cout << "\n\n";
+		centerText("Name: ");cout << actuser;
+		cout << "\n";
+		centerText("Movie: " ); cout << name << endl;
+		centerText("Price: "); cout << price << "/- x " << totaltickets << endl;
 		movietot = price * totaltickets;
-		cout << "Total: " << movietot << "/-";
+		centerText("Total: ");cout << movietot << "/-";
 
-		cout << "\n\nSnacks :\n";
+		cout << "\n\n";
+		centerText("Snacks :");
+		cout<<"\n";
 
 		for (int i = 0; i < 5; i++)
 			if (squantity[i] > 0)
 			{
-				cout << squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
+				cout <<setw(65)<<' '<< squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
 				totalsnackCost += squantity[i] * sprices[i];
 			}
-		cout << "Total Snack Cost: " << totalsnackCost << "/-" << endl;
+		centerText("Total Snack Cost: ");cout << totalsnackCost << "/-" << endl;
 
 		grand = (movietot + totalsnackCost) + ((movietot + totalsnackCost) * gst);
 
-		cout << "\nGST: " << (movietot + totalsnackCost) * gst << endl;
-		cout << "-----------------------------------------\n";
-		cout << "Grand total: " << grand << "/-";
+		cout << "\n";
+		centerText("GST: ");cout << (movietot + totalsnackCost) * gst << endl;
+		centerText("-----------------------------------------");
+		cout<<"\n";
+		centerText("Grand total: ");cout << grand << "/-";
 	}
 };
 
 void header()
 {
 	int line = 24;
-	int space = 2;
+	int space = 77;
 
 	cout << "\n";
 
-	for (int i = 0; i < space; i++)
-		cout << ' ';
+	cout << setw(space - 3 - 2 + 2) << ' ';
+	cout << setw(space) << setw(line) << setfill('-') << '-' << setfill(' ') << "\n\n";
 
-	for (int i = 0; i < line; i++)
-		cout << '-';
+	cout << setw(space + 12 + 2) << "MOVIE HOUSE" << "\n\n ";
 
-	cout << "\n\n";
-	cout << " " << "MOVIE TICKET BOOKING SYSTEM"; // Discover new name
-	cout << "\n\n ";
-
-	for (int i = 0; i < space - 1; i++)
-		cout << ' ';
-
-	for (int i = 0; i < line; i++)
-		cout << '-';
-
-	cout << "\n";
+	cout << setw(space - 6 + 2) << ' ';
+	cout << setw(space) << setw(line) << setfill('-') << '-' << setfill(' ') << "\n";
 }
 
 void account();
 
 void about()
 {
-	cout << "\n\nNames:\t\t\tKoushik Sharma\t\tJohn Paul Fernandes" << endl;
-	cout << "Roll no:\t\t23CE132\t\t\t23CE126" << endl;
-	cout << "Class:\t\t\tA1\t\t\tA1" << endl;
-	cout << "Batch:\t\t\tB1\t\t\tB1" << endl;
-	cout << "Practical batch:\tP12\t\t\tP12" << endl;
+	cout << "\n\n\n\n\n\n\n\n\n\n";
+	cout << setw(60) << ' ' << "Names:" << setw(12) << ' ' << "Koushik Sharma" << setw(8) << ' ' << "John Paul Fernandes" << endl;
+	cout << setw(60) << ' ' << "Roll no:" << setw(8 + 2) << ' ' << "23CE132" << setw(12 + 4 - 1) << ' ' << "23CE126" << endl;
+	cout << setw(60) << ' ' << "Class:" << setw(12) << ' ' << "A1" << setw(12 + 9 - 1) << ' ' << "A1" << endl;
+	cout << setw(60) << ' ' << "Batch:" << setw(12 + 1 + 1) << "B1" << setw(12 + 9 - 1) << ' ' << "B1" << endl;
+	cout << setw(60) << ' ' << "Practical batch:" << setw(1 + 1) << ' ' << "P12" << setw(12 + 8 - 1) << ' ' << "P12" << endl;
 }
 
 void mainmenu()
@@ -820,23 +881,35 @@ void mainmenu()
 	details c;
 	details *d;
 
-	cout << "\n\n   --Dashboard--\n1. Display Shows\n2. Book a seat\n3. Movie Information\n4. Cancel a booked seat\n5. About us\n6. Log out\nSelect the number corresponding to your choice: ";
+	cout << "\n\n";
+	centerText("   --Dashboard");
+	cout << "\n";
+	centerText("1. Display Shows");
+	cout << setw(166) << "2. Book a seat";
+	cout << setw(166 + 8) << "3. Movie Information";
+	cout << setw(166 + 12 - 7) << "4. Cancel a booked seat";
+	cout << setw(166 + 3 - 13) << "5. About us";
+	cout << setw(166 + 4 - 5 + 2) << "6. Log out" << endl;
+	centerText("Select the number corresponding to your choice: ");
 	cin >> choice;
 
 	switch (choice)
 	{
 	case 1:
 	{
+		system("CLS");
 		i.showsdisplay();
 		break;
 	}
 
 	case 2:
 	{
+		system("CLS");
 		i.titles();
 		i.gettickname();
 		i.nooftickets();
 		i.asksnacks();
+		system("CLS");
 		i.displaygrand();
 		i.pay();
 		break;
@@ -844,6 +917,7 @@ void mainmenu()
 
 	case 3:
 	{
+		system("CLS");
 		d = &c;
 		d->titles();
 		d->getname();
@@ -852,6 +926,7 @@ void mainmenu()
 
 	case 4:
 	{
+		system("CLS");
 		booking e;
 		d = &e;
 		d->getname();
@@ -860,6 +935,7 @@ void mainmenu()
 
 	case 6:
 	{
+		system("CLS");
 		header();
 		account();
 		mainmenu();
@@ -868,6 +944,7 @@ void mainmenu()
 
 	case 5:
 	{
+		system("CLS");
 		about();
 		break;
 	}
@@ -882,8 +959,12 @@ void mainmenu()
 
 void buttons(char &cho)
 {
-	cout << "\n\n  [O] - Home\t[X] - Exit" << endl;
-	cout << "\n   Select an option: ";
+	cout << "\n\n";
+	centerText("[O] - Home\t[X] - Exit");
+	cout << endl;
+	cout << "\n";
+	centerText("Select an option: ");
+	;
 	cin >> cho;
 }
 
@@ -891,13 +972,22 @@ void account()
 {
 	int acc;
 
-	cout << "\nGet started by creating you account!\n\n1. New User? Sign up\n2. Having an account? Log in\n\nSelect the number corresponding to your choice: ";
+	cout << "\n\n\n\n\n\n\n\n\n\n";
+	centerText("Get started by creating you account!");
+	cout << "\n\n";
+	centerText("1. New User? Sign up");
+	cout << "\n";
+	centerText("2. Having an account? Log in");
+	cout << "\n\n";
+	centerText("Select the number corresponding to your choice: ");
 	cin >> acc;
 
 	switch (acc)
 	{
 	case 1:
 	{
+		system("CLS");
+		header();
 		SignIn s;
 		s.getuser();
 		break;
@@ -905,6 +995,8 @@ void account()
 
 	case 2:
 	{
+		system("CLS");
+		header();
 		LogIn l;
 		l.getuser();
 		break;
@@ -927,8 +1019,10 @@ int main()
 
 	do
 	{
+		header();
 		mainmenu();
 		buttons(cont);
+		system("CLS");
 	} while (cont == 'O');
 
 	_getch();
