@@ -10,6 +10,7 @@
 using namespace std;
 
 string actuser;
+void mainmenu();
 
 void centerText(string text)
 {
@@ -526,7 +527,8 @@ public:
 
 		else
 		{
-			cout << "\nMovie not found!";
+			cout << "\n";
+			centerText("Movie not found!");
 			gettickname();
 		}
 	}
@@ -580,7 +582,7 @@ public:
 		}
 
 		default:
-			cout << "Incorrect choice!";
+			centerText("Incorrect choice!");
 		}
 	}
 
@@ -608,7 +610,8 @@ public:
 
 	void getname()
 	{
-		cout << "\nEnter name of the movie: ";
+		cout << "\n";
+		centerText("Enter name of the movie: ");
 		getline(cin >> ws, canname);
 
 		compcan(canname);
@@ -630,7 +633,8 @@ public:
 
 		else
 		{
-			cout << "\nMovie not found! Enter again!";
+			cout << "\n";
+			centerText("Movie not found! Enter again!");
 			getname();
 		}
 	}
@@ -640,12 +644,14 @@ public:
 		string seatnum;
 		int num, flag = 0, i = 0;
 
-		cout << "\nHow many seats do you want to cancel?\t";
+		cout << "\n";
+		centerText("How many seats do you want to cancel?    ");
 		cin >> num;
 
 		for (i = 0; i < num; i++)
 		{
-			cout << "\n\nEnter seat number (A1, C10, D4...): ";
+			cout << "\n\n";
+			centerText("Enter seat number (A1, C10, D4...): ");
 			cin >> seatnum;
 
 			for (int j = 0; j < 100; j++)
@@ -691,7 +697,7 @@ public:
 		cout << endl;
 
 		for (int i = 0; i < 5; i++)
-			cout << setw(65+8) << ' ' << i + 1 << ". " << slist[i] << setw(8) << ' ' << sprices[i] << "/-" << endl;
+			cout << setw(65 + 8) << ' ' << i + 1 << ". " << slist[i] << setw(8) << ' ' << sprices[i] << "/-" << endl;
 
 		int choice, quantity;
 		char more;
@@ -701,11 +707,27 @@ public:
 			cout << "\n";
 			centerText("Enter the snack number: ");
 			cin >> choice;
-			centerText("Enter quantity: ");
-			cin >> quantity;
 
-			if (choice > 0 && choice <= 5)
-				squantity[choice - 1] += quantity;
+			try
+			{
+				if (choice > 5 || choice < 0)
+					throw(choice);
+			}
+
+			catch (int choice)
+			{
+				centerText("Snack does not exists!");
+			}
+
+			if (choice <= 5 && choice > 0)
+			{
+				cout << "\n";
+				centerText("Enter quantity: ");
+				cin >> quantity;
+
+				if (choice > 0 && choice <= 5)
+					squantity[choice - 1] += quantity;
+			}
 
 			else
 			{
@@ -716,7 +738,7 @@ public:
 			cout << "\n\n\n";
 			centerText("Do you want to add more snacks?    Yes-(y)    No-(n): ");
 			cin >> more;
-		} while (more == 'y');
+		} while (more == 'y' || more == 'Y');
 	}
 
 	char add;
@@ -727,7 +749,7 @@ public:
 		centerText("Do you want to add snacks?    Yes-(y)    No-(n): ");
 		cin >> add;
 
-		if (add == 'y')
+		if (add == 'y' || add == 'Y')
 			addsnacks();
 	}
 };
@@ -741,56 +763,142 @@ public:
 	void pay()
 	{
 		long long card;
-		string expdate;
-		float inamt;
+		string expdate, UPI;
+
+		int x;
+		char conf;
 
 		cout << "\n\n\n";
 		centerText("-----Billing-----");
 		cout << endl;
 		cout << "\n";
-			 centerText("Enter card number (without spaces): ");
-		cin >> card;
+		centerText("How do you want to pay");
 		cout << "\n";
-		centerText("Enter expiry:");
-		centerText("DD/MM :   ");
-		getline(cin>>ws, expdate);
-
-	label:
+		centerText("1)With Card");
 		cout << "\n";
-		centerText("Payable amount: " ); cout<< grand << "/-";
-		cout << "\n\n";
-		centerText("Enter amount: ");
-		cin >> inamt;
+		centerText("2)UPI Payment");
+		cout<<"\n";
+		centerText("Response: ");
+		cin >> x;
 
-		if (fabs((inamt - grand)) < 0.01)
+		if (x == 1)
 		{
-			paid = 1;
-
-			// File handling
-
-			ofstream payment("transactions.txt", ios::app);
-
-			payment << "\nUsername: " << actuser << endl;
-			payment << "Card number: " << card << endl;
-			payment << "Expiry: " << expdate << endl;
-			payment << "Amount: " << inamt << endl;
-			payment << "---------------------";
-
-			payment.close();
+			system("CLS");
+			centerText("---BILLING---");
+			cout<<"\n\n";
+			centerText("Enter card number (without spaces): ");
+			cin >> card;
+			cout << "\n";
+			centerText("Enter expiry:");
+			cout << "\n";
+			centerText("DD/MM :   ");
+			getline(cin >> ws, expdate);
 		}
 
-		else if (inamt < grand)
+		if (x == 1)
 		{
+			float inamt;
+		label1:
 			cout << "\n";
-			centerText("Insufficient amount!!");
-			goto label;
+			centerText("Payable amount: ");
+			cout << grand << "/-";
+			cout << "\n\n";
+			centerText("Enter amount: ");
+			cin >> inamt;
+
+			if (fabs((inamt - grand)) < 0.01)
+			{
+				paid = 1;
+
+				// File handling
+
+				ofstream payment("transactions.txt", ios::app);
+
+				payment << "\nUsername: " << actuser << endl;
+				payment << "Card number: " << card << endl;
+				payment << "Expiry: " << expdate << endl;
+				payment << "Amount: " << inamt << endl;
+				payment << "---------------------";
+
+				payment.close();
+			}
+
+			else if (inamt < grand)
+			{
+				cout << "\n";
+				centerText("Insufficient amount!!");
+				goto label1;
+			}
+
+			else if (inamt > grand)
+			{
+				cout << "\n";
+				centerText("Amount exceeded!");
+				goto label1;
+			}
 		}
 
-		else if (inamt > grand)
+		else if (x == 2)
 		{
+		label:
+		system("CLS");
+			centerText("---BILLING---");
+			cout<<"\n\n";
 			cout << "\n";
-			centerText("Amount exceeded!");
-			goto label;
+			centerText("Enter UPI ID: ");
+			cin >> UPI;
+			centerText("Payable amount: ");
+			cout << grand << "/-";
+			cout << "\n\n";
+			centerText("Proceed with the payment?    Yes-(y)  No-(n): ");
+			cin >> conf;
+
+			if (conf == 'Y' || conf == 'y')
+			{
+				paid = 1;
+
+				// File handling
+
+				ofstream payment("transactions.txt", ios::app);
+
+				payment << "\nUsername: " << actuser << endl;
+				payment << "UPI ID: " << UPI << endl;
+				payment << "Amount: " << grand << endl;
+				payment << "---------------------";
+
+				payment.close();
+			}
+
+			else if (conf == 'N' || conf == 'n')
+			{
+				char z;
+
+			jump:
+				cout << "\n";
+				centerText("Do you want to go to the Home page or try again?       Home-(h)  RETRY-(r):");
+				cout << "\n";
+				centerText("Responce: ");
+				cin >> z;
+				if (z == 'h')
+				{
+					system("CLS");
+					mainmenu();
+				}
+				else if (z == 'r')
+				{
+					pay();
+				}
+				else
+				{
+					centerText("Invalid choice");
+					goto jump;
+				}
+			}
+		}
+		else
+		{
+			centerText("Invalid choice");
+			pay();
 		}
 
 		if (paid == 1) // Print the ticket from the file
@@ -800,8 +908,9 @@ public:
 			for (int i = 0; i < totaltickets; i++)
 			{
 				cout << "\n";
-				centerText("Ticket ");cout << i + 1 << " code: " << rand() % 999999 + 10000;
-				}
+				centerText("Ticket ");
+				cout << i + 1 << " code: " << rand() % 999999 + 10000;
+			}
 
 			cout << "\n\n";
 			centerText("Kindly note the tickets codes which is required at the time of entering the theatre...");
@@ -809,7 +918,7 @@ public:
 
 			cout << "\n\n";
 			centerText("Payment successfull!");
-			cout<<"\n";
+			cout << "\n";
 			centerText("---Thank you for visiting us!---");
 		}
 	}
@@ -817,32 +926,39 @@ public:
 	void displaygrand()
 	{
 		cout << "\n\n";
-		centerText("Name: ");cout << actuser;
+		centerText("Name: ");
+		cout << actuser;
 		cout << "\n";
-		centerText("Movie: " ); cout << name << endl;
-		centerText("Price: "); cout << price << "/- x " << totaltickets << endl;
+		centerText("Movie: ");
+		cout << name << endl;
+		centerText("Price: ");
+		cout << price << "/- x " << totaltickets << endl;
 		movietot = price * totaltickets;
-		centerText("Total: ");cout << movietot << "/-";
+		centerText("Total: ");
+		cout << movietot << "/-";
 
 		cout << "\n\n";
 		centerText("Snacks :");
-		cout<<"\n";
+		cout << "\n\n";
 
 		for (int i = 0; i < 5; i++)
 			if (squantity[i] > 0)
 			{
-				cout <<setw(65)<<' '<< squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
+				cout << setw(73) << ' ' << squantity[i] << "x " << slist[i] << "\t" << squantity[i] * sprices[i] << "/-" << endl;
 				totalsnackCost += squantity[i] * sprices[i];
 			}
-		centerText("Total Snack Cost: ");cout << totalsnackCost << "/-" << endl;
+		centerText("Total Snack Cost: ");
+		cout << totalsnackCost << "/-" << endl;
 
 		grand = (movietot + totalsnackCost) + ((movietot + totalsnackCost) * gst);
 
 		cout << "\n";
-		centerText("GST: ");cout << (movietot + totalsnackCost) * gst << endl;
+		centerText("GST: ");
+		cout << (movietot + totalsnackCost) * gst << endl;
 		centerText("-----------------------------------------");
-		cout<<"\n";
-		centerText("Grand total: ");cout << grand << "/-";
+		cout << "\n";
+		centerText("Grand total: ");
+		cout << grand << "/-";
 	}
 };
 
@@ -957,7 +1073,8 @@ void mainmenu()
 	}
 }
 
-void buttons(char &cho)
+template <class T>
+void buttons(T &cho)
 {
 	cout << "\n\n";
 	centerText("[O] - Home\t[X] - Exit");
@@ -1023,7 +1140,7 @@ int main()
 		mainmenu();
 		buttons(cont);
 		system("CLS");
-	} while (cont == 'O');
+	} while (cont == 'o' || cont == 'O');
 
 	_getch();
 	return 0;
