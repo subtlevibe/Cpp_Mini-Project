@@ -11,22 +11,22 @@ The provided C++ code implements a robust movie booking system. It leverages bje
 # Program functionality
 
 ## Movie Information:
-Store movie details (title, genre, director, description, etc.)
+Store movie details (title, genre, director, description, etc.) <br>
 Display movie listings (e.g., now showing)
 
 ## Showtime Management:
-Create and manage showtimes for each movie (date, time, seat number)
+Create and manage showtimes for each movie (date, time, seat number) <br>
 Handle potential conflicts (eg. double bookings)
 
 ## Seat Reservation:
-Visualize seating arrangements
-Allow users to select and reserve seats
-Track seat availability in real-time
+Visualize seating arrangements  <br>
+Allow users to select and reserve seats  <br>
+Track seat availability in real-time <br>
 
 ## Ticket Purchase:
-Calculate ticket prices (consider factors like discounts)
-Generate and display electronic tickets
-Implement payment processing (UPI & Card)
+Calculate ticket prices (consider factors like discounts)  <br>
+Generate and display electronic tickets  <br>
+Implement payment processing (UPI & Card)  <br>
 
 # Conclusion
 
