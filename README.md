@@ -10,7 +10,7 @@ The provided C++ code implements a robust movie booking system. It leverages bje
 
 # Program functionality
 
-##Movie Information:
+## Movie Information:
 Store movie details (title, genre, director, description, etc.)
 Display movie listings (e.g., now showing)
 
